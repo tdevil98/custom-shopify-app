@@ -1,0 +1,5 @@
+type="backend"
+
+[commands]
+dev = "php /Users/tdevilphan/composer.phar serve"
+build = "php /Users/tdevilphan/composer.phar build"
