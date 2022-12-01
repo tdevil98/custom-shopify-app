@@ -1,10 +1,12 @@
 import { useNavigate, TitleBar, Loading } from "@shopify/app-bridge-react";
+import { useState} from "react";
 import {
   Card,
   EmptyState,
   Layout,
   Page,
   SkeletonBodyText,
+  Checkbox,
 } from "@shopify/polaris";
 import { QRCodeIndex } from "../components";
 import { useAppQuery } from "../hooks";
@@ -47,6 +49,9 @@ const {
     </Card>
   ) : null;
 
+  const [facebook, setFacebook] = useState(false);
+  const [google, setGoogle] = useState(false);
+
   /* Use Polaris Card and EmptyState components to define the contents of the empty state */
   const emptyStateMarkup =
     !isLoading && !QRCodes?.length ? (
@@ -72,18 +77,32 @@ const {
   */
   return (
     <Page fullWidth={!!qrCodesMarkup}>
-      <TitleBar
+      {/* <TitleBar
         title="QR codes"
         primaryAction={{
           content: "Create QR code",
           onAction: () => navigate("/qrcodes/new"),
         }}
-      />
+      /> */}
       <Layout>
         <Layout.Section>
-          {loadingMarkup}
+          {/* {loadingMarkup}
           {qrCodesMarkup}
-          {emptyStateMarkup}
+          {emptyStateMarkup} */}
+          <Checkbox
+            id="facebook"
+            name="facebook"
+            label="Facebook"
+            value={facebook}
+            onChange={(e) => setFacebook(e.target.checked)}
+          ></Checkbox>
+          <Checkbox
+            id="google"
+            name="google"
+            label="Google"
+            value={google}
+            onChange={(e) => setGoogle(e.target.checked)}
+          ></Checkbox>
         </Layout.Section>
       </Layout>
     </Page>
