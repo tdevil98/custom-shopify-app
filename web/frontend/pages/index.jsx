@@ -1,5 +1,5 @@
 import { useNavigate, TitleBar, Loading } from "@shopify/app-bridge-react";
-import { useState} from "react";
+import { useState, useCallback } from "react";
 import {
   Card,
   EmptyState,
@@ -7,6 +7,7 @@ import {
   Page,
   SkeletonBodyText,
   Checkbox,
+  TextField
 } from "@shopify/polaris";
 import { QRCodeIndex } from "../components";
 import { useAppQuery } from "../hooks";
@@ -51,6 +52,13 @@ const {
 
   const [facebook, setFacebook] = useState(false);
   const [google, setGoogle] = useState(false);
+  const [facebookKey, setFacebookKey] = useState('');
+  const [googleKey, setGoogleKey] = useState('');
+
+  const handleChangeFacebook = useCallback((newChecked) => setFacebook(newChecked), []);
+  const handleChangeGoogle = useCallback((newChecked) => setGoogle(newChecked), []);
+  const handleChangeFacebookKey = useCallback((newValue) => setFacebookKey(newValue), []);
+  const handleChangeGoogleKey = useCallback((newValue) => setGoogleKey(newValue), []);
 
   /* Use Polaris Card and EmptyState components to define the contents of the empty state */
   const emptyStateMarkup =
@@ -77,32 +85,48 @@ const {
   */
   return (
     <Page fullWidth={!!qrCodesMarkup}>
-      {/* <TitleBar
+      <TitleBar
         title="QR codes"
         primaryAction={{
           content: "Create QR code",
           onAction: () => navigate("/qrcodes/new"),
         }}
-      /> */}
+      />
       <Layout>
         <Layout.Section>
-          {/* {loadingMarkup}
+          {loadingMarkup}
           {qrCodesMarkup}
-          {emptyStateMarkup} */}
+          {emptyStateMarkup}
           <Checkbox
             id="facebook"
             name="facebook"
             label="Facebook"
             value={facebook}
-            onChange={(e) => setFacebook(e.target.checked)}
-          ></Checkbox>
+            checked={facebook}
+            onChange={handleChangeFacebook}
+          />
+          <TextField 
+            label="Facebook key" 
+            name="facebook_key"
+            value={facebookKey}
+            onChange={handleChangeFacebookKey}
+            autoComplete="off"
+          />
           <Checkbox
             id="google"
             name="google"
             label="Google"
             value={google}
-            onChange={(e) => setGoogle(e.target.checked)}
-          ></Checkbox>
+            checked={google}
+            onChange={handleChangeGoogle}
+          />
+          <TextField 
+            label="Google key" 
+            name="google_key" 
+            value={googleKey}
+            onChange={handleChangeGoogleKey}
+            autoComplete="off"
+          />
         </Layout.Section>
       </Layout>
     </Page>
